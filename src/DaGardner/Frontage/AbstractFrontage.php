@@ -26,7 +26,10 @@ abstract class AbstractFrontage
 		static::$container = $container;
 	}
 
-	abstract public static function getFacadeID();
+	public static function getFacadeID()
+	{
+		throw new \RuntimeException('Method <getFacadeID> not implemented');
+	}
 
 	public static function __callStatic($method, $params)
 	{
