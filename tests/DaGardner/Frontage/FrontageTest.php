@@ -36,6 +36,14 @@ class FrontageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Bar', Mock::get());
 	}
 
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testException()
+    {
+        WrongMock::get();
+    }
+
 }
 
 
@@ -45,6 +53,8 @@ class Mock extends DaGardner\Frontage\AbstractFrontage
 		return 'mock';
 	}
 }
+
+class WrongMock extends DaGardner\Frontage\AbstractFrontage {}
 
 
 class MockConcrete
