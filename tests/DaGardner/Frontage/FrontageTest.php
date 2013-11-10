@@ -19,12 +19,21 @@ class FrontageTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        AbstractFrontage::setContainer(new Container);
+        $container = new Container;
+        
+        $container->bind('mock', function() {
+            return new MockConcrete;
+        }, true);
+
+        AbstractFrontage::setContainer($container);
+
     }
 
 	public function testGeneral()
 	{
         $this->assertEquals('Foo', Mock::get());
+        Mock::set('Bar');
+        $this->assertEquals('Bar', Mock::get());
 	}
 
 }
@@ -33,7 +42,7 @@ class FrontageTest extends PHPUnit_Framework_TestCase
 class Mock extends DaGardner\Frontage\AbstractFrontage
 {
 	public static function getFacadeID() {
-		return 'MockConcrete';
+		return 'mock';
 	}
 }
 
@@ -48,7 +57,7 @@ class MockConcrete
     /**
      * Gets the value of name.
      *
-     * @return mixed
+     * @return string
      */
     public function get()
     {
@@ -58,14 +67,10 @@ class MockConcrete
     /**
      * Sets the value of name.
      *
-     * @param mixed $name the name
-     *
-     * @return self
+     * @param string $name the name
      */
     public function set($name)
     {
         $this->name = $name;
-
-        return $this;
     }
 }
