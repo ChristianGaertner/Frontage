@@ -9,7 +9,7 @@
  * Frontage's main class
  * @author Christian Gärtner <christiangaertner.film@googlemail.com>
  */
-abstract class Frontage
+abstract class AbstractFrontage
 {
 	/**
 	 * The container for this class to look for objects
