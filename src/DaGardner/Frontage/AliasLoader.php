@@ -8,7 +8,7 @@
 /**
  * An simple Alias Loader with lazy loading
  * @author Christian Gärtner <christiangaertner.film@googlemail.com>
- * @version 0.1
+ * @version 0.2
  */
 class AliasLoader
 {
