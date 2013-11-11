@@ -29,6 +29,37 @@ class AliasLoaderTest extends PHPUnit_Framework_TestCase
         $loader->alias('alias', 'stdClass');
 
         $this->assertEquals(array('bar' => 'baz', 'alias' => 'stdClass'), $loader->getAliases());
+    }
 
+    public function testAliasing()
+    {
+        // MockConcrete is definded in ./FrontageTest.php
+        $loader = new AliasLoader(array('AliasName' => 'MockConcrete'));
+
+        $loader->create('AliasName');
+
+        $mock = new AliasName;
+
+        $this->assertEquals('Foo', $mock->get());
+    }
+
+    public function testAutoLoader()
+    {
+        // MockConcrete is definded in ./FrontageTest.php
+        $loader = new AliasLoader(array('MC' => 'MockConcrete'));
+
+        $loader->makeAutoloader();
+
+        $mock = new MC;
+
+        $this->assertEquals('Foo', $mock->get());
+    }
+
+    public function testIsAutoloaded()
+    {
+        $loader = new AliasLoader;
+        $loader->makeAutoloader();
+
+        $this->assertTrue($loader->isAutoloader());
     }
 }

@@ -52,7 +52,8 @@ class AliasLoader
     {
         if (!$this->autoloader) {
             
-            spl_autoload_register(array($this, 'create'), true, true);    
+            spl_autoload_register(array($this, 'create'), true, true);
+            $this->autoloader = true;
 
         }
     }
@@ -86,7 +87,7 @@ class AliasLoader
      *
      * @return boolean
      */
-    public function getAutoloader()
+    public function isAutoloader()
     {
         return $this->autoloader;
     }
