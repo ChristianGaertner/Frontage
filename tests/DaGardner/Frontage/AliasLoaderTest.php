@@ -15,33 +15,20 @@ use DaGardner\Frontage\AliasLoader;
 */
 class AliasLoaderTest extends PHPUnit_Framework_TestCase
 {
-
-}
-
-class MockConcrete
-{
-	
-	protected $name = 'Foo';
-
-
-
-    /**
-     * Gets the value of name.
-     *
-     * @return string
-     */
-    public function get()
+    public function testAliasSettingAndGetting()
     {
-        return $this->name;
-    }
-    
-    /**
-     * Sets the value of name.
-     *
-     * @param string $name the name
-     */
-    public function set($name)
-    {
-        $this->name = $name;
+        
+        $loader = new AliasLoader(array('foo' => 'bar'));
+
+        $this->assertEquals(array('foo' => 'bar'), $loader->getAliases());
+
+        $loader->setAliases(array('bar' => 'baz'));
+
+        $this->assertEquals(array('bar' => 'baz'), $loader->getAliases());
+
+        $loader->alias('alias', 'stdClass');
+
+        $this->assertEquals(array('bar' => 'baz', 'alias' => 'stdClass'), $loader->getAliases());
+
     }
 }
