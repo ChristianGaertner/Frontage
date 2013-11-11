@@ -7,7 +7,19 @@ This is a package with a few small classes which will make your life easier and 
 
 The main component is the `AbstractFrontage` class which is an implementation of the facade pattern.
 
-## Facades
+## Installation
+
+Simply add `dagardner/frontage` to your composer dependencies and run composer install.
+
+    "require": {
+        "dagardner/frontage": "0.1"
+    }
+
+If you cannot use composer (you should!) you can still clone this repo and require all files you need manually.
+
+## Components
+
+### Facades
 
 Create a facade in seconds:
 
@@ -17,15 +29,15 @@ use DaGardner\Frontage\AbstractFrontage;
 
 class Model extends AbstractFrontage
 {
-	public static function getFacadeID() {
-		return 'mymodel';
-	}
+    public static function getFacadeID() {
+        return 'mymodel';
+    }
 }
 
 class MyModel
 {
-	
-	protected $name = 'Foo';
+    
+    protected $name = 'Foo';
 
 
 
@@ -52,7 +64,7 @@ class MyModel
 
 $container = new Container;
 $container->bind('mymodel', function() {
-	return new MyModel;
+    return new MyModel;
 }, true);
 ```
 
@@ -63,7 +75,7 @@ Model::get();
 Model::set('New Name');
 ```
 
-## AliasLoader
+### AliasLoader
 
 The AliasLoader is a class alias creator with lazy loading enabled.
 
