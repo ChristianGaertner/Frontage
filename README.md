@@ -115,6 +115,35 @@ AliasLoader::make()
     ->create('Model');
 ```
 
+### ArrayCase
+
+An ArrayCase lets you handle a vanilla array in an OOP approach.
+
+```php
+$case = new ArrayCase(array('foo', 'bar'));
+// or
+$case = ArrayCase::make(array('foo', 'bar')); // this one is chainable :D
+```
+
+Just check out the code and see what is implemented. Just to show you a few:
+
+This will call the callback on each element and after that we grab the first element.
+```php
+$case->each(function($value)
+{
+    $value->callMethodMayBe('?!');
+})->first();
+```
+
+Or build in json support:
+
+```php
+echo $case->json();
+// or just convert to string
+echo $case;
+```
+
+Of course the standard array manipulation tools are implemented like pop, shift, unshift, etc.
 
 #### License
 MIT
