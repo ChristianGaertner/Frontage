@@ -24,6 +24,15 @@ class AliasLoader
      */
     protected $autoloader = false;
 
+    /**
+     * Factory.
+     * @param  array  $aliases The aliases.
+     * @return self            A new instance
+     */
+    public static function make(array $aliases = array())
+    {
+        return new static($aliases);
+    }
 
     /**
      * Constructor.

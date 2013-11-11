@@ -15,6 +15,12 @@ use DaGardner\Frontage\AliasLoader;
 */
 class AliasLoaderTest extends PHPUnit_Framework_TestCase
 {
+
+    public function testFactory()
+    {
+        $this->assertInstanceOf('DaGardner\Frontage\AliasLoader', AliasLoader::make());
+    }
+
     public function testAliasSettingAndGetting()
     {
         
