@@ -8,7 +8,7 @@
 /**
  * Frontage's main class
  * @author Christian Gärtner <christiangaertner.film@googlemail.com>
- * @version 0.1
+ * @version 0.2
  */
 abstract class AbstractFrontage
 {
