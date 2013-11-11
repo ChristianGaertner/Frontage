@@ -16,9 +16,12 @@ use DaGardner\Frontage\ArrayCase;
 class ArrayCaseTest extends PHPUnit_Framework_TestCase
 {
 
-    public function testFactory()
+    public function testFactoryAndImplements()
     {
         $this->assertInstanceOf('DaGardner\Frontage\ArrayCase', ArrayCase::make());
+        $this->assertInstanceOf('Countable', new ArrayCase);
+        $this->assertInstanceOf('IteratorAggregate', new ArrayCase);
+        $this->assertInstanceOf('ArrayAccess', new ArrayCase);
     }
 
     public function testArrayInitializationAndGetArray()
@@ -110,5 +113,102 @@ class ArrayCaseTest extends PHPUnit_Framework_TestCase
     	$this->assertInstanceOf('DaGardner\Frontage\ArrayCase', $c->remove('foo'));
 
     	$this->assertEquals(array(), $c->all());
+    }
+
+    public function testMerge()
+    {
+        $c = ArrayCase::make(array('foo' => 'bar'));
+        $c->merge(array('baz' => 'qux'));
+
+        $this->assertEquals(array('foo' => 'bar', 'baz' => 'qux'), $c->all());
+
+        $c = ArrayCase::make(array('foo' => 'bar'));
+        $c2 = ArrayCase::make(array('baz' => 'qux'));
+
+        $c->merge($c2);
+
+        $this->assertEquals(array('foo' => 'bar', 'baz' => 'qux'), $c->all(), 'You should be able to merge 2 ArrayCase instances');
+    }
+
+    public function testGetKeys()
+    {
+        $c = ArrayCase::make(array('foo' => 'bar', 'baz' => 'qux'));
+
+        $this->assertEquals(array('foo', 'baz'), $c->keys());
+    }
+
+    public function testPush()
+    {
+        $c = ArrayCase::make(array('foo', 'bar'));
+
+        $c->push('baz');
+
+        $this->assertEquals('baz', $c->last());
+    }
+
+    public function testCallbackOnEach()
+    {
+        $array = array('foo', 'bar', 'baz');
+        
+        $c = ArrayCase::make($array);
+
+        $test = array();
+
+        $c->each(function($value) use (&$test)
+        {
+            $test[] = $value;
+        });
+
+        $this->assertEquals($array, $test);
+
+        $this->assertInstanceOf('DaGardner\Frontage\ArrayCase', $c->each(function() {}));
+    }
+
+    public function testJSONConversation()
+    {
+        $c = ArrayCase::make(array('foo' => 'bar'));
+
+        $this->assertEquals('{"foo":"bar"}', $c->json());
+    }
+
+    public function testStringConversation()
+    {
+        $c = ArrayCase::make(array('foo' => 'bar'));
+
+        $this->assertEquals('{"foo":"bar"}', (string) $c);
+    }
+
+    public function testCounting()
+    {
+        $this->assertEquals(1, count(ArrayCase::make(array('foo'))));
+    }
+
+    public function testIteratingOverCase()
+    {
+        $array = array('foo' => 'Foo', 'bar' => 'Bar', 'baz' => 'Baz'); 
+        $c = ArrayCase::make($array);
+        $test = array();
+
+        foreach ($c as $key => $value) {
+            $test[$key] = $value;
+        }
+
+        $this->assertEquals($array, $test);
+    }
+
+    public function testArrayAccess()
+    {
+        $c = ArrayCase::make();
+
+        $c['key'] = 'value';
+
+        $this->assertEquals('value', $c['key']);
+        $this->assertTrue(isset($c['key']));
+
+        $c['unset'] = 'me';
+
+        unset($c['unset']);
+
+        $this->assertFalse($c->has('unset'));
     }
 }

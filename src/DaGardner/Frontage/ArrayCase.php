@@ -6,14 +6,17 @@
  */
 
 use Closure;
+use Countable;
+use ArrayAccess;
 use ArrayIterator;
+use IteratorAggregate;
 
 /**
  * A OOP approach of handling arrays
  * @author Christian Gärtner <christiangaertner.film@googlemail.com>
  * @version 0.1
  */
-class ArrayCase
+class ArrayCase implements Countable, IteratorAggregate, ArrayAccess
 {
     /**
      * The wrapped array
@@ -286,5 +289,59 @@ class ArrayCase
     public function __toString()
     {
         return $this->json();
+    }
+
+    /**
+     * ArrayAccess
+     *
+     * @uses has()
+     * 
+     * @param  mixed $offset  The key
+     * 
+     * @return mixed
+     */
+    public function offsetExists($offset)
+    {
+        return $this->has($offset);
+    }
+
+    /**
+     * ArrayAccess
+     *
+     * @uses remove()
+     * 
+     * @param  mixed $offset  The key
+     */
+    public function offsetUnset($offset)
+    {
+        $this->remove($offset);
+    }
+
+    /**
+     * ArrayAccess
+     *
+     * @uses get()
+     * 
+     * @param  mixed $offset  The key
+     * 
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * ArrayAccess
+     *
+     * NOTE: This will override without needing to specify (as in put())
+     * @uses put()
+     * 
+     * @param  mixed $offset  The key
+     * @param  mixed $value   The value to store
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->put($offset, $value, true);
     }
 }
