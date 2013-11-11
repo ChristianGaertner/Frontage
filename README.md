@@ -3,15 +3,19 @@
 [![Coverage Status](https://coveralls.io/repos/ChristianGaertner/Frontage/badge.png?branch=master)](https://coveralls.io/r/ChristianGaertner/Frontage?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/dagardner/frontage/v/stable.png)](https://packagist.org/packages/dagardner/frontage)
 
-An implementation of the facade pattern.
+This is a package with a few small classes which will make your life easier and your code cleaner.
+
+The main component is the `AbstractFrontage` class which is an implementation of the facade pattern.
+
+## Facades
 
 Create a facade in seconds:
 
 ```php
-use DaGardner\Frontage\AbstractFrontage;
 use DaGardner\DaContainer\Container;
+use DaGardner\Frontage\AbstractFrontage;
 
-class Model extends DaGardner\Frontage\AbstractFrontage
+class Model extends AbstractFrontage
 {
 	public static function getFacadeID() {
 		return 'mymodel';
@@ -59,11 +63,46 @@ Model::get();
 Model::set('New Name');
 ```
 
-### About
+## AliasLoader
 
-The Frontage package is just a tiny helper and doesn't do too much.
+The AliasLoader is a class alias creator with lazy loading enabled.
 
-Note that this requires a container from which it can pull from.
+```php
+use DaGardner\Frontage\AliasLoader;
+
+AliasLoader::make()
+    ->makeAutoloader()
+    ->alias('Foo', 'MyModel');
+
+// Now you can access the MyModel class this way:
+$myModel = new Foo;
+```
+
+This AliasLoader plays nicely with the Frontage class. As you need to create a class for
+each Facade you will most likley namespace these Facades and now they aren' t that nifty anymore:
+
+```php
+Vendor\Lib\Facades\Model::get()
+```
+
+Now an alias would be really nice:
+
+```php
+AliasLoader::make()
+    ->alias('Model', 'Vendor\Lib\Facades\Model')
+    ->makeAutoloader();
+
+Model::get();
+```
+
+These alias are lazy loaded so they will get created on the first access of `Model`. However you can create the alias by hand this way:
+
+```php
+AliasLoader::make()
+    ->alias('Model', 'Vendor\Lib\Facades\Model')
+    ->create('Model');
+```
+
 
 #### License
 MIT
