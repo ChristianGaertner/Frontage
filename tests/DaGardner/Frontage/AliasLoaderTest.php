@@ -68,4 +68,14 @@ class AliasLoaderTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($loader->isAutoloader());
     }
+
+    public function testChaining()
+    {
+        $aliases = AliasLoader::make()
+                    ->setAliases(array())
+                    ->makeAutoloader()
+                    ->alias('Foo', 'Bar')
+                    ->getAliases();
+        $this->assertEquals(array('Foo' => 'Bar'), $aliases);
+    }
 }
