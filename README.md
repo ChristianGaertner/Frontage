@@ -12,7 +12,7 @@ The main component is the `AbstractFrontage` class which is an implementation of
 Simply add `dagardner/frontage` to your composer dependencies and run composer install.
 
     "require": {
-        "dagardner/frontage": "0.1"
+        "dagardner/frontage": "0.2"
     }
 
 If you cannot use composer (you should!) you can still clone this repo and require all files you need manually.
